@@ -1,4 +1,4 @@
-from Clases import Tablero
+from old_version.Clases import Tablero
 
 tablero_usuario = Tablero()
 tablero_maquina = Tablero()
