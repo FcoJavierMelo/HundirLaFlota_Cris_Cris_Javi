@@ -18,7 +18,8 @@ def start_game():
         Each fleet is composed of 10 ships of 4 different types.
 
     """)
-
+start = ''
+while start != 'yes' and start != 'no':
     start = input("Play? (yes/no) ")
 
     if start.lower() == 'yes':
@@ -27,7 +28,10 @@ def start_game():
             print("You won")
         else:
             print("The computer won")
-
+    elif start.lower() == 'no':
+        print('Goodbye!')
+    else:
+        print('Wrong answer, try again ;)')
 
 if __name__ == "__main__":
     start_game()
