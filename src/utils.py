@@ -4,6 +4,12 @@ import os
 import constants
 
 
+def clear_console():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
 class Radar:
     """ Set... """
 
@@ -153,7 +159,8 @@ class Player:
             print("Only integers are allowed")
             self.attack(target)
         input('Press enter.')
-        os.system('clear')
+        clear_console()
+        #os.system('clear')
 
 
 class Computer(Player):
@@ -183,8 +190,8 @@ class Battleship:
         self.result = True
         self.play()
 
-    def clear_console(self):
-        os.system('clear')
+    '''def clear_console(self):
+        os.system('clear')'''
 
     def fleet_beated(self, player):
         return player.fleet == []
@@ -194,18 +201,21 @@ class Battleship:
         player.set_fleet()
         player.print_console()
         input("Press Enter")
-        self.clear_console()
+        #self.clear_console()
+        clear_console()
 
         computer = Computer()
         computer.set_fleet()
-        self.clear_console()
+        #self.clear_console()
+        clear_console()
 
         while True:
             player.attack(computer)
             if self.fleet_beated(computer):
                 break
             else:
-                self.clear_console()
+                #self.clear_console()
+                clear_console()
                 computer.attack(player)
                 if self.fleet_beated(player):
                     self.result = False
