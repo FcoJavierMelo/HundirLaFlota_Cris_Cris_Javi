@@ -1,3 +1,4 @@
+# coding=utf-8
 import numpy as np
 import random
 import os
@@ -22,7 +23,7 @@ class Radar:
         print()
         for i in range(columns):
             for j in range(rows):
-                print(self.board[j][i] + '\t', end="")
+                print(self.board[j][i] + '\t', end ="")
             print()
         print()
 
