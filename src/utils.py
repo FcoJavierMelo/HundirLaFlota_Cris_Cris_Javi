@@ -1,16 +1,10 @@
-# coding=utf-8
 import numpy as np
+import constants
 import random
 import os
-import constants
 
-
-def clear_console():
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
-
+#La clase tiene un atributo que es board(array de np)
+#con metodo view.board que imprime el tablero con su estatus
 class Radar:
     """ Set... """
 
@@ -23,11 +17,12 @@ class Radar:
         print()
         for i in range(columns):
             for j in range(rows):
-                print(self.board[j][i] + '\t', end ="")
+                print(self.board[j][i] + '\t', end="")
             print()
         print()
 
-
+#heradamos el atributo board de radar
+#los métodos son valid_coordinate, valida los límites del tablero, y set posiciona el barco
 class Board(Radar):
     """ Represent and manipulate the board of the player"""
 
@@ -68,7 +63,8 @@ class Board(Radar):
             self.board[y][x] = '#'
             y += 1
 
-
+#representación de barcos, dos atributos (size y coordinates)
+#con status -- estado del barco actual
 class Ship():
 
     def __init__(self, size):
@@ -100,10 +96,12 @@ class Player:
         self.board = Board()
         self.fleet = []
 
+# fleet recoge todos los barcos de cada contrincante
+
     def set_fleet(self):
 
         for ship in constants.SHIPS:
-
+            #nos garantiza que no va a parar hasta que encuentre la posición
             while True:
                 x = random.randint(0, constants.COLUMNS - 1)
                 y = random.randint(0, constants.ROWS - 1)
@@ -115,7 +113,7 @@ class Player:
                     my_ship = Ship(ship)
                     my_ship.coords_vertical(x, y)
                     self.fleet.append(my_ship)
-                    break
+                    break  #una vez posicionado ya no sigue
                 elif orientation == 'H' and self.board.available_row(x, y, ship):
                     self.board.set_horizontal_ship(x, y, ship)
                     my_ship = Ship(ship)
@@ -128,14 +126,14 @@ class Player:
         self.board.view_board()
         print("Radar")
         self.radar.view_board()
-
+#toma las coordenadas del ataque, si es barco de la flota, las elimina de la lista de coord de barco
     def save_hit(self, x, y):
         for ship in self.fleet:
             if (x, y) in ship.coordinates:
                 ship.coordinates.remove((x, y))
                 if ship.status():
                     self.fleet.remove(ship)
-
+#define el objetivo
     def attack(self, target):
         self.print_console()
         try:
@@ -160,15 +158,14 @@ class Player:
             print("Only integers are allowed")
             self.attack(target)
         input('Press enter.')
-        clear_console()
-        #os.system('clear')
+        os.system('clear')
 
 
 class Computer(Player):
     def __init__(self):
         super(Computer, self).__init__(self)
         self.name = 'Computer'
-
+#polimorfismo
     def attack(self, target):
         x = random.randint(0, constants.COLUMNS - 1)
         y = random.randint(0, constants.ROWS - 1)
@@ -186,14 +183,15 @@ class Computer(Player):
 
 
 class Battleship:
-
+#atributo result determina quien gana
     def __init__(self):
         self.result = True
         self.play()
 
-    '''def clear_console(self):
-        os.system('clear')'''
+    def clear_console(self):
+        os.system('clear')
 
+#comparación si la flota fue derrodata devuelve true
     def fleet_beated(self, player):
         return player.fleet == []
 
@@ -202,21 +200,18 @@ class Battleship:
         player.set_fleet()
         player.print_console()
         input("Press Enter")
-        #self.clear_console()
-        clear_console()
+        self.clear_console()
 
         computer = Computer()
         computer.set_fleet()
-        #self.clear_console()
-        clear_console()
+        self.clear_console()
 
         while True:
             player.attack(computer)
             if self.fleet_beated(computer):
                 break
             else:
-                #self.clear_console()
-                clear_console()
+                self.clear_console()
                 computer.attack(player)
                 if self.fleet_beated(player):
                     self.result = False

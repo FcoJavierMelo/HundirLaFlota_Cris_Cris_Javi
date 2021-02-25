@@ -32,6 +32,6 @@ while start != 'yes' and start != 'no':
         print('Goodbye!')
     else:
         print('Wrong answer, try again ;)')
-
+#sólo si arrancamos desde consola, sino corregir identación en start_game
 if __name__ == "__main__":
     start_game()
